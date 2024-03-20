@@ -154,3 +154,47 @@ function addZero(i) {
     }
     return i;
 }
+
+
+//***************** */ geo location wise *****************
+
+// Wait for the DOM content to load
+document.addEventListener('DOMContentLoaded', function () {
+    // for browsere
+    if ("geolocation" in navigator) {
+        // geo location is supported
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    } else {
+        // geolocation is not supported
+        swal("Geolocation Not Supported", "Your browser does not support geolocation.", "error");
+    }
+});
+
+// Success callback function for geolocation
+function successCallback(position) {
+  
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+
+ 
+    getWeatherByGeoLocation(latitude, longitude);
+}
+
+// Error callback function for geolocation
+function errorCallback(error) {
+    // Show an error message if geolocation fails
+    swal("Geolocation Error", "Failed to retrieve your location.", "error");
+}
+
+// Function to fetch weather based on geolocation
+function getWeatherByGeoLocation(latitude, longitude) {
+    fetch(`${weatherApi.baseUrl}?lat=${latitude}&lon=${longitude}&appid=${weatherApi.key}&units=metric`)
+        .then(weather => {
+            return weather.json();
+        })
+        .then(showWeaterReport)
+        .catch(error => {
+            swal("Weather Data Error", "Failed to fetch weather data.", "error");
+            console.error('Error fetching weather data:', error);
+        });
+}
