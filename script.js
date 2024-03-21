@@ -156,7 +156,7 @@ function addZero(i) {
 }
 
 
-//***************** */ geo location wise *****************
+//***************** */get weather geolocation wise *****************
 
 // Wait for the DOM content to load
 document.addEventListener('DOMContentLoaded', function () {
